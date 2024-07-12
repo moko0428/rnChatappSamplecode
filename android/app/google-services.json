@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "11774588776",
+    "project_id": "testchatapp-1c594",
+    "storage_bucket": "testchatapp-1c594.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11774588776:android:f672f8dae7ff433b0d48dd",
+        "android_client_info": {
+          "package_name": "com.moko.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp1Irq5bsjG_8u0nBOAGJ-jBdkJBwjTwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

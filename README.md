@@ -60,3 +60,8 @@ android/app/src/main/java/MainActivity.kt
 1. 파일 맨 위에 패키지명이 있는데 그것을 복사한다.
 
 2. 검색에서 그 패키지명을 찾고 ios에서 설정한 패키지명으로 모두 바꿔준다.
+
+# 2. 파이어베이스 패키지 설치
+
+<a href="https://velog.io/@moko0428/RN-Firebase-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0-Authentication">파이어베이스 설정 하는 방법</a>
+위의 링크에서 파이어베이스가 제시하는 버전만 바꿔 설정한다.
