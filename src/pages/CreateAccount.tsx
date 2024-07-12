@@ -1,7 +1,9 @@
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useContext, useMemo, useState} from 'react';
 import validator from 'validator';
 import Screens from '../components/Screens';
 import {
+  ActivityIndicator,
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,8 +12,10 @@ import {
   View,
 } from 'react-native';
 import {Colors} from '../modules/Colors';
+import AuthContext from '../libs/AuthContext';
 
 export default () => {
+  const {createAccount, processingCreateAccount} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -80,7 +84,13 @@ export default () => {
     setName(text);
   }, []);
 
-  const onPressCreateAccountButton = useCallback(() => {}, []);
+  const onPressCreateAccountButton = useCallback(async () => {
+    try {
+      await createAccount(email, password, name);
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
+  }, [createAccount, email, password, name]);
   const onPressLoginButton = useCallback(() => {}, []);
 
   // 에러가 있을 시 버튼 클릭 막는 스타일
@@ -101,87 +111,93 @@ export default () => {
 
   return (
     <Screens title="회원가입">
-      <ScrollView style={styles.container}>
-        <View style={styles.section}>
-          <Text style={styles.title}>이메일</Text>
-          <TextInput
-            value={email}
-            style={styles.input}
-            onChangeText={onChageEmailText}
-            autoCapitalize={'none'}
-          />
-          {emailErrorText && (
-            <Text style={styles.errorText}>{emailErrorText}</Text>
-          )}
+      {processingCreateAccount ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator />
         </View>
-        <View style={styles.section}>
-          <Text style={styles.title}>비밀번호</Text>
-          <View>
+      ) : (
+        <ScrollView style={styles.container}>
+          <View style={styles.section}>
+            <Text style={styles.title}>이메일</Text>
             <TextInput
-              value={password}
+              value={email}
               style={styles.input}
-              onChangeText={onChagePasswordText}
+              onChangeText={onChageEmailText}
               autoCapitalize={'none'}
-              secureTextEntry={showPassword ? true : false}
             />
-            <TouchableOpacity
-              style={styles.showPasswordBtn}
-              onPress={onPressShowPassword}>
-              <Text>보기</Text>
-            </TouchableOpacity>
+            {emailErrorText && (
+              <Text style={styles.errorText}>{emailErrorText}</Text>
+            )}
           </View>
-          {passwordErrorText && (
-            <Text style={styles.errorText}>{passwordErrorText}</Text>
-          )}
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.title}>비밀번호 확인</Text>
-          <View>
+          <View style={styles.section}>
+            <Text style={styles.title}>비밀번호</Text>
+            <View>
+              <TextInput
+                value={password}
+                style={styles.input}
+                onChangeText={onChagePasswordText}
+                autoCapitalize={'none'}
+                secureTextEntry={showPassword ? true : false}
+              />
+              <TouchableOpacity
+                style={styles.showPasswordBtn}
+                onPress={onPressShowPassword}>
+                <Text>보기</Text>
+              </TouchableOpacity>
+            </View>
+            {passwordErrorText && (
+              <Text style={styles.errorText}>{passwordErrorText}</Text>
+            )}
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.title}>비밀번호 확인</Text>
+            <View>
+              <TextInput
+                value={passwordConfirm}
+                style={styles.input}
+                onChangeText={onChagePasswordConfirmText}
+                autoCapitalize={'none'}
+                secureTextEntry={showPasswordConfirm ? true : false}
+              />
+              <TouchableOpacity
+                style={styles.showPasswordBtn}
+                onPress={onPressShowPasswordConfirm}>
+                <Text>보기</Text>
+              </TouchableOpacity>
+            </View>
+            {confirmErrorText && (
+              <Text style={styles.errorText}>{confirmErrorText}</Text>
+            )}
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.title}>이름</Text>
             <TextInput
-              value={passwordConfirm}
+              value={name}
               style={styles.input}
-              onChangeText={onChagePasswordConfirmText}
+              onChangeText={onChageNameText}
               autoCapitalize={'none'}
-              secureTextEntry={showPasswordConfirm ? true : false}
             />
+
+            {nameErrorText && (
+              <Text style={styles.errorText}>{nameErrorText}</Text>
+            )}
+          </View>
+          <View>
             <TouchableOpacity
-              style={styles.showPasswordBtn}
-              onPress={onPressShowPasswordConfirm}>
-              <Text>보기</Text>
+              onPress={onPressCreateAccountButton}
+              style={createAccountButtonStyle}>
+              <Text style={styles.createAccountText}>회원가입</Text>
             </TouchableOpacity>
-          </View>
-          {confirmErrorText && (
-            <Text style={styles.errorText}>{confirmErrorText}</Text>
-          )}
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.title}>이름</Text>
-          <TextInput
-            value={name}
-            style={styles.input}
-            onChangeText={onChageNameText}
-            autoCapitalize={'none'}
-          />
 
-          {nameErrorText && (
-            <Text style={styles.errorText}>{nameErrorText}</Text>
-          )}
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={onPressCreateAccountButton}
-            style={createAccountButtonStyle}>
-            <Text style={styles.createAccountText}>회원가입</Text>
-          </TouchableOpacity>
-
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>이미 계정이 있으신가요?</Text>
-            <TouchableOpacity onPress={onPressLoginButton}>
-              <Text style={styles.loginBtnText}>로그인하기</Text>
-            </TouchableOpacity>
+            <View style={styles.loginContainer}>
+              <Text style={styles.loginText}>이미 계정이 있으신가요?</Text>
+              <TouchableOpacity onPress={onPressLoginButton}>
+                <Text style={styles.loginBtnText}>로그인하기</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </Screens>
   );
 };
@@ -244,5 +260,10 @@ const styles = StyleSheet.create({
   loginBtnText: {
     fontSize: 14,
     color: Colors.BLUE,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
