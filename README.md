@@ -65,3 +65,25 @@ android/app/src/main/java/MainActivity.kt
 
 <a href="https://velog.io/@moko0428/RN-Firebase-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0-Authentication">파이어베이스 설정 하는 방법</a>
 위의 링크에서 파이어베이스가 제시하는 버전만 바꿔 설정한다.
+
+# 3. 회원가입 스크린 구현
+
+- react-navigation 패키지 설치
+
+```
+npm i @react-navigation/native react-native-screens react-native-safe-area-context @react-navigation/native-stack react-native-gesture-handler
+```
+
+> 안드로이드는 따로 설정이 필요하다.
+
+- TextInput 필드 구현
+- 입력한 텍스트 검증
+
+```
+npm i --save-dev @types/validator
+```
+
+- 에러가 있을 시 회원 가입 버튼 비활성화
+- 파이어베이스 auth를 이용하여 회원가입
+
+공통 스크린 구현 - 헤더
