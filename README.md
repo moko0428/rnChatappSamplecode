@@ -1,79 +1,62 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 1. 프로젝트 세팅
 
-# Getting Started
+## 1-1. 헤르메스 엔진 비활성화
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+- 헤르메스 엔진을 활성화시키게 되면 다른 패키지와 충돌이 발생할 수도 있기 때문에 비활성화 하는 것이 좋다.
 
-## Step 1: Start the Metro Server
+- 장점:
+  a. 비활성화 시 자바스크립트 디버깅 도구의 호환성이 개선될 수 있다.
+  b. 빌드 시간이 단축될 수 있다.
+  c. 일부 설정 문제나 호환성 문제를 피할 수 있다.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+- 단점:
+  a. 안드로이드에서 자바스크립트 코드 실행 성능이 저하될 수 있다.
+  b. 헤르메스 엔진이 아닌 기본 엔진을 사용하게 될 경우 메모리 사용량이 증가할 수 있다.
+  c. 앱 크기가 증가할 수 있다.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+따라서 작은 규모의 앱, 간단한 앱을 만들 경우 헤르메스 엔진을 비활성화하는 것이 편하다!
 
-```bash
-# using npm
-npm start
+### ios에서 헤르메스 비활성화
 
-# OR using Yarn
-yarn start
+ios/Podfile
+
+```
+ use_react_native!(
+    :path => config[:reactNativePath],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => false <- 추가
+  )
 ```
 
-## Step 2: Start your Application
+추가 후에
+cd ios
+pod install
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+### android에서 헤르메스 비활성화
 
-### For Android
+android/app/build.gradle
 
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```
+def jscFlavor = 'org.webkit:android-jsc:+'
+def hermesEnabled = false
 ```
 
-### For iOS
+## 1-2. 번들 이름 수정하기
 
-```bash
-# using npm
-npm run ios
+### ios에서 수정
 
-# OR using Yarn
-yarn ios
-```
+1. xcode 열기
+   cd ios
+   xed .
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+2. bundle identifier 수정
+   폴더/프로젝트 명/Signing & Capabillites/Bundle Identifier/com.원하는 이름.chatapp으로 수정 후 엔터!
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+### android에서 수정
 
-## Step 3: Modifying your App
+android/app/src/main/java/MainActivity.kt
 
-Now that you have successfully run the app, let's modify it.
+1. 파일 맨 위에 패키지명이 있는데 그것을 복사한다.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+2. 검색에서 그 패키지명을 찾고 ios에서 설정한 패키지명으로 모두 바꿔준다.

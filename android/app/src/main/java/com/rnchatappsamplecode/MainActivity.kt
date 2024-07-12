@@ -1,4 +1,4 @@
-package com.rnchatappsamplecode
+package com.moko.chatapp
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
