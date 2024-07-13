@@ -1,5 +1,5 @@
 import {useCallback, useContext, useMemo, useState} from 'react';
-import Screens from '../components/Screens';
+import Screens from '../../components/Screens';
 import validator from 'validator';
 import {
   ActivityIndicator,
@@ -11,10 +11,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Colors} from '../modules/Colors';
-import AuthContext from '../libs/AuthContext';
+import {Colors} from '../../modules/Colors';
+import AuthContext from '../../libs/AuthContext';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../libs/types';
+import {RootStackParamList} from '../../libs/types';
 import {useNavigation} from '@react-navigation/native';
 
 export default () => {

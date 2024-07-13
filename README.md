@@ -102,3 +102,16 @@ npm i --save-dev @types/validator
 - 로그아웃 구현
 - firestore를 이용한 데이터 로드
 - flatList를 이용하여 사용자 리스트 구현
+
+# 6. 채팅방 생성 및 로드
+
+- 선택된 사용자와 채팅방 생성 및 로드
+- 대화 참여자 목록 구현
+- 메시지 전송 input 컴포넌트 구현
+- 벡터 아이콘 라이브러리
+
+```
+npm i --save-dev @types/lodash
+npm i moment
+npm i react-native-vector-icons
+```

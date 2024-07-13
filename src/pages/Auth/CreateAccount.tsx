@@ -1,6 +1,6 @@
 import {useCallback, useContext, useMemo, useState} from 'react';
 import validator from 'validator';
-import Screens from '../components/Screens';
+import Screens from '../../components/Screens';
 import {
   ActivityIndicator,
   Alert,
@@ -11,12 +11,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Colors} from '../modules/Colors';
-import AuthContext from '../libs/AuthContext';
+import {Colors} from '../../modules/Colors';
+import AuthContext from '../../libs/AuthContext';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../libs/types';
+import {RootStackParamList} from '../../libs/types';
 
 export default () => {
   const {createAccount, processingCreateAccount} = useContext(AuthContext);

@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import React, {useCallback} from 'react';
 import {Colors} from '../modules/Colors';
-import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface ScreenProps {
   title?: string;
@@ -15,19 +16,16 @@ interface ScreenProps {
 }
 export default ({title, children}: ScreenProps) => {
   const {goBack, canGoBack} = useNavigation();
-
   const onPressBackButton = useCallback(() => {
     goBack();
   }, [goBack]);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.left}>
-          {/* canGoBack이란 뒤로갈 수 있는 스크린이 있을 경우에 동작하는 것 */}
           {canGoBack() && (
             <TouchableOpacity onPress={onPressBackButton}>
-              <Text style={styles.backButtonText}>{'Back'}</Text>
+              <Icon name="arrow-back" style={styles.backButtonIcon} />
             </TouchableOpacity>
           )}
         </View>
@@ -46,13 +44,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: 48,
+    height: 40,
     flexDirection: 'row',
   },
   left: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   center: {
     flex: 3,
@@ -70,8 +67,10 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
   },
-  backButtonText: {
-    fontSize: 12,
+
+  backButtonIcon: {
+    fontSize: 20,
     color: Colors.BLACK,
+    marginLeft: 20,
   },
 });

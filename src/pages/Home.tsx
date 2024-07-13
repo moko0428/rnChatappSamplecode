@@ -86,7 +86,12 @@ export default () => {
                 renderItem={({item: user}) => (
                   <TouchableOpacity
                     style={styles.userListItem}
-                    onPress={() => {}}>
+                    onPress={() => {
+                      navigate('Chat', {
+                        userIds: [me.userId, user.userId],
+                        other: user,
+                      });
+                    }}>
                     <Text style={styles.otherNameText}>{user.name}</Text>
                     <Text style={styles.otherEmailText}>{user.email}</Text>
                   </TouchableOpacity>
@@ -179,8 +184,5 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     color: Colors.GRAY,
-  },
-  profile: {
-    marginRight: 10,
   },
 });
