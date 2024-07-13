@@ -9,6 +9,8 @@ export default ({children}: {children: React.ReactNode}) => {
   const [initialized, setInitialized] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [processingCreateAccount, setProcessingCreateAccount] = useState(false);
+  const [processingLogin, setProcessingLogin] = useState(false);
+
   useEffect(() => {
     const unsubscribe = auth().onUserChanged(async fbUser => {
       if (fbUser != null) {
@@ -31,8 +33,8 @@ export default ({children}: {children: React.ReactNode}) => {
 
   const createAccount = useCallback(
     async (email: string, password: string, name: string) => {
-      setProcessingCreateAccount(true);
       try {
+        setProcessingCreateAccount(true);
         const {user: currentUser} = await auth().createUserWithEmailAndPassword(
           email,
           password,
@@ -53,14 +55,31 @@ export default ({children}: {children: React.ReactNode}) => {
     [],
   );
 
+  const login = useCallback(async (email: string, password: string) => {
+    try {
+      setProcessingLogin(true);
+      await auth().signInWithEmailAndPassword(email, password);
+    } finally {
+      setProcessingLogin(false);
+    }
+  }, []);
   const value = useMemo(() => {
     return {
       initialized,
       user,
       createAccount,
       processingCreateAccount,
+      login,
+      processingLogin,
     };
-  }, [initialized, user, createAccount, processingCreateAccount]);
+  }, [
+    initialized,
+    user,
+    createAccount,
+    processingCreateAccount,
+    login,
+    processingLogin,
+  ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

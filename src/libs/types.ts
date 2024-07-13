@@ -1,5 +1,7 @@
+// 스크린 타입
 export type RootStackParamList = {
   CreateAccount: undefined;
+  Login: undefined;
 };
 
 export interface User {
@@ -8,6 +10,7 @@ export interface User {
   name: string;
 }
 
+// 파이어베이스 firestore 콜렉션
 export enum Collections {
   USERS = 'users',
 }

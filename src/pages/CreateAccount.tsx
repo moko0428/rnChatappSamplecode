@@ -13,6 +13,10 @@ import {
 } from 'react-native';
 import {Colors} from '../modules/Colors';
 import AuthContext from '../libs/AuthContext';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import {RootStackParamList} from '../libs/types';
 
 export default () => {
   const {createAccount, processingCreateAccount} = useContext(AuthContext);
@@ -22,6 +26,8 @@ export default () => {
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const {navigate} =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const onPressShowPassword = () => {
     setShowPassword(!showPassword);
@@ -91,7 +97,9 @@ export default () => {
       Alert.alert(error.message);
     }
   }, [createAccount, email, password, name]);
-  const onPressLoginButton = useCallback(() => {}, []);
+  const onPressLoginButton = useCallback(() => {
+    navigate('Login');
+  }, [navigate]);
 
   // 에러가 있을 시 버튼 클릭 막는 스타일
   const createAccountButtonEnabled = useMemo(() => {
@@ -185,7 +193,8 @@ export default () => {
           <View>
             <TouchableOpacity
               onPress={onPressCreateAccountButton}
-              style={createAccountButtonStyle}>
+              style={createAccountButtonStyle}
+              disabled={!createAccountButtonEnabled}>
               <Text style={styles.createAccountText}>회원가입</Text>
             </TouchableOpacity>
 
@@ -213,6 +222,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: Colors.BLACK, // 안드로이드와 iOS의 디폴트 색상이 다를 수도 있다.
   },
   input: {
     marginTop: 20,
