@@ -2,6 +2,8 @@
 export type RootStackParamList = {
   CreateAccount: undefined;
   Login: undefined;
+  Home: undefined;
+  Loading: undefined;
 };
 
 export interface User {
